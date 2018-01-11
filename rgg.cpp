@@ -9,17 +9,19 @@ using namespace std;
 
 
 void quote(){
-  char retry = ' ';
-  int linecount = 0;
-  int randQuote_int = 0;
-  string line = "";
-  vector<string>randQuote_vect;
+  char retry = ' '; //char for controling do-while
+  int linecount = 0; //count for the lines the file provides
+  int coloncount = 0; //counting colons for better looking output
+  int randQuote_int = 0; //int for random linenumber
+  string line = ""; //string that saves single lines from file, to pass it on to the vector
+  string output = "";
+  vector<string>randQuote_vect; //dynamic array with text; lines stored as single strings
 
-  ifstream goethe("Faust.txt");
+  ifstream goethe("Faust.txt"); //opens file
 
   do{
 
-      srand(time(0));
+      srand(time(0)); //sets seed number for rand function
 
       if(goethe.is_open()){
         while(!goethe.eof())
@@ -33,9 +35,34 @@ void quote(){
         }
 
         randQuote_int = rand() % linecount;
-        cout << randQuote_vect[randQuote_int] << endl;
+
+        output = randQuote_vect[randQuote_int];
+        cout << output << endl;
+        for(int i = 0; i < output.length(); i++)
+        {
+          switch(output[i])
+          {
+            case '.': output[i+1] = '\n'; break;
+
+            case '!': if(output[-3] != 'a' && output[-2] != 'c' && output[-1] != 'h')
+                      {
+                        output[i+1] = '\n';
+                      }
+                      break;
+
+            case ':': if(coloncount < 1)
+                      {
+                        output[i+1] = '\n';
+                        coloncount++;
+                      }
+                      break;
+
+            default: break;
+          }
+        }
+        cout << output << endl;
+
         goethe.close();
-        cout << randQuote_vect.size() << endl;
       }
 
       else{
