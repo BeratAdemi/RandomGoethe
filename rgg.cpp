@@ -37,23 +37,13 @@ void quote(){
         randQuote_int = rand() % linecount;
 
         output = randQuote_vect[randQuote_int];
-        cout << output << endl;
         for(int i = 0; i < output.length(); i++)
         {
           switch(output[i])
           {
-            case '.': output[i+1] = '\n'; break;
-
-            case '!': if(output[-3] != 'a' && output[-2] != 'c' && output[-1] != 'h')
+            case ' ': if(output[i+1] == ' ')
                       {
                         output[i+1] = '\n';
-                      }
-                      break;
-
-            case ':': if(coloncount < 1)
-                      {
-                        output[i+1] = '\n';
-                        coloncount++;
                       }
                       break;
 
