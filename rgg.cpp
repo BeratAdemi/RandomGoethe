@@ -8,15 +8,21 @@ using namespace std;
 
 int linecount = 0; //count for the lines the file provides
 
-string randtxt()
+string randtxt(char mode)
 {
   int randtxt_int = 0;
-  string texts[2] = {"Faust.txt", "KeinWesen.txt"};
+  string drama[1] = {"Faust.txt"};
+  string poem[2] = {"KeinWesen.txt", "Heidenröslein.txt"};
   srand(time(0)); //sets seed number for rand function
 
-  randtxt_int = rand() % 2;
-
-  return texts[randtxt_int];
+  if(mode == 'd' || mode == 'D')
+  {
+    randtxt_int = rand() % 1; return drama[randtxt_int];
+  }
+  else
+  {
+    randtxt_int = rand() % 2; return poem[randtxt_int];
+  }
 }
 
 vector<string> textin(string txt)
@@ -62,24 +68,35 @@ int randint()
 
 // main() is where program execution begins.
 int main() {
-string output = "";
-string a = randtxt();
-vector<string>vect = textin(a);
+  char modein = ' ';
+  cout << "Random Goethe Generator" << endl;
+  cout << "You have two options to choose from." << endl;
+  cout << "1. [P]oem: Output of full poems written by Goethe." << endl;
+  cout << "2. [D]rama: Output of single quotes found in Goethes dramas." << endl;
+  cout << endl;
+  cout << "Which option would you like to use?" << endl;
+  cin >> modein;
 
-output = vect[randint()];
-for(int i = 0; i < output.length(); i++)
-{
-  switch(output[i]) //switch modifies output
+  cout << string(10, '\n');
+
+  string output = "";
+  string a = randtxt(modein);
+  vector<string>vect = textin(a);
+
+  output = vect[randint()];
+  for(int i = 0; i < output.length(); i++)
   {
-    case ' ': if(output[i+1] == ' ')
-              {
-                output[i+1] = '\n';
-              }
-              break;
+    switch(output[i]) //switch modifies output
+    {
+      case ' ': if(output[i+1] == ' ')
+                {
+                  output[i+1] = '\n';
+                }
+                break;
 
-    default: break;
+      default: break;
+    }
   }
-}
-cout << output << endl;
-return 0;
+  cout << output << endl;
+  return 0;
 }
