@@ -8,15 +8,19 @@
 using namespace std;
 
 int linecount = 0; //count for the lines the file provides
-bool run = true;
-char tmp ='Y';
+bool run = true;  //variable to control while loop
+char repeat =' ';  //variable to set run
+
+
+//function picks a random text to return; user input for choosen mode
 string randtxt(char mode)
 {
-  int randtxt_int = 0;
-  string drama[1] = {"Faust.txt"};
-  string poem[2] = {"KeinWesen.txt", "Heidenröslein.txt"};
+  int randtxt_int = 0;  //final random number
+  string drama[1] = {"Faust.txt"}; //string arrays with the file names that contain the texts
+  string poem[2] = {"KeinWesen.txt", "Heidenroeslein.txt"};
   srand(time(0)); //sets seed number for rand function
 
+  //picking the random text or exit based on the user input
   if(mode == 'd' || mode == 'D')
   {
     randtxt_int = rand() % 1; return drama[randtxt_int];
@@ -39,23 +43,26 @@ string randtxt(char mode)
   }
 }
 
+//function reads text from file and returns vector with lines from file as strings
 vector<string> textin(string txt)
 {
   char retry = 'y'; //char for controling do-while
   string line = ""; //string that saves single lines from file, to pass it on to the vector
-  vector<string>xvec;
+  vector<string>tmp_vect; //initializing vector
+  tmp_vect.clear(); //makes sure the vector is empty to avoid running out of memory
 
     ifstream goethe(txt); // opens file
 
+    //reads file
     while(retry == 'y' || retry == 'Y')
     {
       if(goethe.is_open()){
-        while(!goethe.eof())
+        while(!goethe.eof())  //checks if the end of file is reached
         {
           getline(goethe, line);
           if (line != " ")
           {
-            xvec.push_back(line);
+            tmp_vect.push_back(line);
             linecount++;
           }
         }
@@ -69,23 +76,27 @@ vector<string> textin(string txt)
         cin >> retry;
       }
     }
-      return xvec;
+      return tmp_vect;
 }
 
+//function generates a random number to pick quote
 int randint()
 {
   srand(time(0)); //sets seed number for rand function
   int randQuote_int = 0; //int for random linenumber
   randQuote_int = rand() % linecount;
+  linecount = 0; //resets linecount
   return randQuote_int;
 }
 
-// main() is where program execution begins.
+
 int main() {
 
   while(run)
   {
-    char modein = ' ';
+    char modein = ' '; //char that stores user input for mode
+
+    //output to start program
     cout << "Random Goethe Generator" << endl;
     cout << "You have three options to choose from." << endl;
     cout << "1. [P]oem: Output of full poems written by Goethe." << endl;
@@ -97,20 +108,25 @@ int main() {
 
     cout << string(2, '\n');
 
-    string output = "";
-    string a = randtxt(modein);
+    string output = ""; //string that stores the output to process output before actual output
+    string a = randtxt(modein); //string that stores file name of random text
 
     if(a == "exit")
     {
       return 0;
     }
 
-    vector<string>vect = textin(a);
 
-    output = vect[randint()];
+    vector<string>vect; //vector that will contain text
+    vect.clear(); //making sure the vector is empty to avoid running out of memory
+    vect = textin(a); //getting read text from file
+
+    output = vect[randint()]; //setting output to be one random object from vect
+
+    //processing output for better looks
     for(int i = 0; i < output.length(); i++)
     {
-      switch(output[i]) //switch modifies output
+      switch(output[i])
       {
         case ' ': if(output[i+1] == ' ')
                   {
@@ -121,22 +137,25 @@ int main() {
         default: break;
       }
     }
+
+    //output
     cout << output << endl;
     cout << string(2, '\n');
     cout << "Again? [Y/N]";
-    cin >> tmp;
+    cin >> repeat;
     cout << endl;
-    if(tmp == 'N' || tmp == 'n')
+
+    if(repeat == 'N' || repeat == 'n')
     {
       run = false;
     }
+
   }
   return 0;
 }
 
 /*
 Roadmap:
-Schleife, damit man das Programm immer weiter ausführt. ==> leeren des Vectors xD
 GUI
 compiled package
 Website
