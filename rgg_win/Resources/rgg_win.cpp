@@ -62,8 +62,8 @@ char rggstart() {
 string randtxt(char mode)
 {
   int randtxt_int = 0;  //final random number
-  string drama[1] = {"Resources/Texts/Faust.txt"}; //string arrays with the file names that contain the texts
-  string poem[2] = {"Resources/Texts/KeinWesen.txt", "Resources/Texts/Heidenroeslein.txt"};
+  string drama[1] = {"Resources/texts_win/Faust.txt"}; //string arrays with the file names that contain the texts
+  string poem[2] = {"Resources/texts_win/KeinWesen.txt", "Resources/texts_win/Heidenroeslein.txt"};
   srand(time(0)); //sets seed number for rand function
 
   //picking the random text or exit based on the user input
