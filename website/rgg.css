@@ -1,0 +1,7 @@
+body {
+    background-color: white;
+}
+div.headingdiv{
+    text-align: center;
+    background: linear-gradient(to bottom, orange, white);
+}
