@@ -62,8 +62,8 @@ char rggstart() {
 string randtxt(char mode)
 {
   int randtxt_int = 0;  //final random number
-  string drama[1] = {"Resources/texts_win/Faust.txt"}; //string arrays with the file names that contain the texts
-  string poem[2] = {"Resources/texts_win/KeinWesen.txt", "Resources/texts_win/Heidenroeslein.txt"};
+  string drama[1] = {"texts_macos/Faust.txt"}; //string arrays with the file names that contain the texts
+  string poem[2] = {"texts_macos/KeinWesen.txt", "texts_macos/Heidenroeslein.txt"};
   srand(time(0)); //sets seed number for rand function
 
   //picking the random text or exit based on the user input
@@ -99,7 +99,8 @@ int randintline()
 	return randQuote_int;
 }
 
-int randintsent() {
+int randintsent()
+{
 	srand(time(0)); //sets seed number for rand function
 	int randQuote_int = 0; //int for random linenumber
 	randQuote_int = rand() % sentcount;
@@ -113,6 +114,7 @@ vector<string> textin(string txt)
 {
 	char retry = 'y'; //char for controling do-while
 	string line = ""; //string that saves single lines from file, to pass it on to the vector
+	string tmp = "";
 	vector<string>tmp_vect; //initializing vector
 	vector<string>end_vect; //initializing end-vector
 	tmp_vect.clear(); //makes sure the vector is empty to avoid running out of memory
@@ -142,18 +144,26 @@ vector<string> textin(string txt)
 			cin >> retry;
 		}
 	}
-	/*
+	
 	//split tmp_vect into sentences
 	end_vect.clear();
 
-	string tmp = tmp_vect[randintline()];
+	tmp = tmp_vect[randintline()];
 	
 	tmp_vect.clear();
 	
 	for (int i = 0; i < tmp.length(); i++) {
 
 		switch (tmp[i]) {
-			case '.': end_vect.push_back(tmp.substr(i - lettercount, lettercount));
+			case '.': end_vect.push_back(tmp.substr(i - lettercount, lettercount +1));
+						sentcount++;
+						lettercount = 0;
+						break;
+			case '?': end_vect.push_back(tmp.substr(i - lettercount, lettercount +1));
+						sentcount++;
+						lettercount = 0;
+						break;
+			case '!': end_vect.push_back(tmp.substr(i - lettercount, lettercount +1));
 						sentcount++;
 						lettercount = 0;
 						break;
@@ -161,10 +171,10 @@ vector<string> textin(string txt)
 			default: lettercount++;
 						break;
 		}
-	}*/
+	}
 
 
-      return tmp_vect;
+      return end_vect;
 }
 
 int main() {
@@ -174,7 +184,8 @@ int main() {
   while(run)
   {
     string output = ""; //string that stores the output to process output before actual output
-    string a = randtxt(modein); //string that stores file name of random text
+    string a = "";
+		a = randtxt(modein); //string that stores file name of random text
 
     if(a == "exit")
     {
@@ -186,8 +197,8 @@ int main() {
     vect.clear(); //making sure the vector is empty to avoid running out of memory
     vect = textin(a); //getting read text from file
 
-    output = vect[randintline()]; //setting output to be one random object from vect
-	
+    output = vect[randintsent()]; //setting output to be one random object from vect
+  /*
     //processing output for better looks
     for(int i = 0; i < output.length(); i++)
     {
@@ -201,12 +212,12 @@ int main() {
 
         default: break;
       }
-    }
+    }*/
 
     //output
     cout << output << endl;
     cout << string(2, '\n');
-	cout << "Do you want to see another quote? ([P]oem, [D]rama or E[x]it)" << endl;
+  	cout << "Do you want to see another quote? ([P]oem, [D]rama or E[x]it)" << endl;
     cin >> modein;
     cout << endl;
   }
