@@ -15,7 +15,7 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-	Developer E-Mail: berat.ademi1000@gmail.com
+	Developer E-Mail: rgg@support.ademib.de
 */
 
 #include <iostream>
