@@ -147,32 +147,30 @@ vector<string> textin(string txt)
 	
 	//split tmp_vect into sentences
 	end_vect.clear();
-
+	
 	tmp = tmp_vect[randintline()];
-	
 	tmp_vect.clear();
-	
+
 	for (int i = 0; i < tmp.length(); i++) {
 
 		switch (tmp[i]) {
-			case '.': end_vect.push_back(tmp.substr(i - lettercount, lettercount +1));
+			case '.': end_vect.push_back(tmp.substr(0, tmp.find('.')+1));
+						tmp.erase(0, tmp.find('.')+1);
+						sentcount++;
+						break;
+			case '?': end_vect.push_back(tmp.substr(0, tmp.find('?')+1));
+						tmp.erase(0, tmp.find('?')+1);
 						sentcount++;
 						lettercount = 0;
 						break;
-			case '?': end_vect.push_back(tmp.substr(i - lettercount, lettercount +1));
+			case '!': end_vect.push_back(tmp.substr(0, tmp.find('!')+1));
+						tmp.erase(0, tmp.find('!')+1);
 						sentcount++;
-						lettercount = 0;
-						break;
-			case '!': end_vect.push_back(tmp.substr(i - lettercount, lettercount +1));
-						sentcount++;
-						lettercount = 0;
 						break;
 
-			default: lettercount++;
-						break;
+			default: break;
 		}
 	}
-
 
       return end_vect;
 }
@@ -197,8 +195,9 @@ int main() {
     vect.clear(); //making sure the vector is empty to avoid running out of memory
     vect = textin(a); //getting read text from file
 
-    output = vect[randintsent()]; //setting output to be one random object from vect
-  /*
+		int output_int = randintsent();
+    output = vect[output_int]; //setting output to be one random object from vect
+  
     //processing output for better looks
     for(int i = 0; i < output.length(); i++)
     {
@@ -212,8 +211,13 @@ int main() {
 
         default: break;
       }
-    }*/
+    }
 
+		if(output_int != 0)
+		{
+			string tmp = vect[0];
+			cout << tmp.substr(0, tmp.find(':')+1) << endl;
+		}
     //output
     cout << output << endl;
     cout << string(2, '\n');
