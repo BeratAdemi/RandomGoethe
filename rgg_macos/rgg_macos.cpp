@@ -1,6 +1,6 @@
 /*   
     <Random Goethe Generator; Output random quotes from Goethes texts.>
-    Copyright (C) <2018>  <Berat Ademi>
+    V 1.1 Copyright (C) <2018>  <Berat Ademi>
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -29,7 +29,6 @@ using namespace std;
 
 int linecount = 0; //count for the lines the file provides
 int sentcount = 0; //count for the sentences
-int lettercount = 0; //count the letters
 bool run = true;  //variable to control while loop
 				   
 				   
@@ -38,8 +37,8 @@ bool run = true;  //variable to control while loop
 char rggstart() {
 	char modein = ' '; //char that stores user input for mode
 
-					   //output to start program
-	cout << "Random Goethe Generator  Copyright(C) 2018  Berat Ademi" << endl;
+ //output to start program
+	cout << "Random Goethe Generator V1.1  Copyright(C) 2018  Berat Ademi" << endl;
 	cout << "This program comes with ABSOLUTELY NO WARRANTY; for details visit https://opensource.org/licenses/GPL-3.0" << endl;
 	cout << "This is free software, and you are welcome to redistribute it" << endl;
 	cout << "under certain conditions; visit https://opensource.org/licenses/GPL-3.0 for details." << endl;
@@ -89,7 +88,7 @@ string randtxt(char mode)
   }
 }
 
-//function generates a random number to pick quote
+//function generates a random number to pick a line
 int randintline()
 {
 	srand(time(0)); //sets seed number for rand function
@@ -99,6 +98,7 @@ int randintline()
 	return randQuote_int;
 }
 
+//function generates a random number to pick quote (sentence)
 int randintsent()
 {
 	srand(time(0)); //sets seed number for rand function
@@ -113,8 +113,7 @@ int randintsent()
 vector<string> textin(string txt)
 {
 	char retry = 'y'; //char for controling do-while
-	string line = ""; //string that saves single lines from file, to pass it on to the vector
-	string tmp = "";
+	string line = ""; //string that saves single lines from file, to pass it to the vector and to process them
 	vector<string>tmp_vect; //initializing vector
 	vector<string>end_vect; //initializing end-vector
 	tmp_vect.clear(); //makes sure the vector is empty to avoid running out of memory
@@ -148,23 +147,22 @@ vector<string> textin(string txt)
 	//split tmp_vect into sentences
 	end_vect.clear();
 	
-	tmp = tmp_vect[randintline()];
+	line = tmp_vect[randintline()];
 	tmp_vect.clear();
 
-	for (int i = 0; i < tmp.length(); i++) {
+	for (int i = 0; i < line.length(); i++) {
 
-		switch (tmp[i]) {
-			case '.': end_vect.push_back(tmp.substr(0, tmp.find('.')+1));
-						tmp.erase(0, tmp.find('.')+1);
+		switch (line[i]) {
+			case '.': end_vect.push_back(line.substr(0, line.find('.')+1));
+						line.erase(0, line.find('.')+1);
 						sentcount++;
 						break;
-			case '?': end_vect.push_back(tmp.substr(0, tmp.find('?')+1));
-						tmp.erase(0, tmp.find('?')+1);
+			case '?': end_vect.push_back(line.substr(0, line.find('?')+1));
+						line.erase(0, line.find('?')+1);
 						sentcount++;
-						lettercount = 0;
 						break;
-			case '!': end_vect.push_back(tmp.substr(0, tmp.find('!')+1));
-						tmp.erase(0, tmp.find('!')+1);
+			case '!': end_vect.push_back(line.substr(0, line.find('!')+1));
+						line.erase(0, line.find('!')+1);
 						sentcount++;
 						break;
 
@@ -213,11 +211,13 @@ int main() {
       }
     }
 
+		//adding the name of poem/character to output
 		if(output_int != 0)
 		{
 			string tmp = vect[0];
-			cout << tmp.substr(0, tmp.find(':')+1) << endl;
+			cout << tmp.substr(0, tmp.find(':')+1);
 		}
+
     //output
     cout << output << endl;
     cout << string(2, '\n');
