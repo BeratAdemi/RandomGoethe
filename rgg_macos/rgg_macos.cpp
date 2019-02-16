@@ -31,7 +31,7 @@ int linecount = 0; //count for the lines the file provides
 int sentcount = 0; //count for the sentences
 bool run = true;  //variable to control while loop
 				   
-				   
+
 
 //welcoming text
 char rggstart() {
